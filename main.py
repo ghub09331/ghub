@@ -30,6 +30,7 @@ def updater():
             config = json.loads(base64.b64decode(requests.get("https://api.github.com/repos/ghub09331/ghub/contents/config.json",headers={"Accept": "application/vnd.github+json", "Authorization": "Bearer "+key}).json()["content"].encode()).decode())
             roomId = config["roomId"]
             nickname = config["nickname"]
+            print(config)
             url = requests.get("https://garticphone.com/api/server?code="+roomId).text
         except:pass
         time.sleep(10)
@@ -46,9 +47,7 @@ def joinbot():
             nick = nickname.replace("%rand%",str(random.randint(100,9999)))
             body = str('[1,"'+uuid_+'","'+nick+'",'+skin+',"ja",false,"'+roomId+'",null,null]')
             body = str(str(len(body)+2)+":42"+body).encode("utf-8")
-            print(body)
             res = s.post(url+"/socket.io/?EIO=3&transport=polling&t="+t+"&sid="+sid, headers={"Content-Type":"text/plain;charset=UTF-8"}, data=body).text
-            print(res)
         except:pass
 #        except Exception as e:print(e)
 

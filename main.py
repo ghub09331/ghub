@@ -34,7 +34,7 @@ requests.put("https://api.github.com/repos/ghub09331/ghub/contents/repls/"+mynam
 
 def updater():
     global urls
-    global roomId
+    global roomIds
     global nickname
     while True:
         try:

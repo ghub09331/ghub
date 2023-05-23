@@ -1,1 +1,40 @@
-Qt1+hWz8q09vDsw7Csz/RTxDcs6B6/blWneLTpjN4jn+rusBYQ7ZWn3bD6GWr2kYx0wvgjh6mqDQhHYtrCNShabGKXI3nnfuQe4+nDptgjp7iU031HFkyNFkcRfPpXr8bBOpC+IHOyCBN+0G0bkyqz4hBvAOcFhyoOWPuU30Ga9HN5+rVmasaF6GriayX0K5tDhDknlDcHLkTyg4+6fdagntWYLxRRBJY/vINl+tJbK+SfE5KH4lkTIr1tZ9FqqPLu0A/Wp0Y6EWgFLeb+4lX7WZkdSaEb9mawY7j0CZ2jGHuSf8blJxtrvJ6B64ytoBIOCx2+ZJoJKhcf2/+0XQhsuXCWi+ErUR0nHG0zorS+8aztxF0mAssQNA2tlgpTPN6yMxKIuyq9ECShkbgTRlmcI912Im/PZCWSFA+KEBH2ECLm81mHm2fp3iHtdWvZLRtU19f96jpw/8j+QKzVPSXnbGzw/wYzLp8x2UU3jahF1Mhyo/ldorcsMYpFdZ9VyD9RewdHugE4g5TgRg//RF+CezL6wxKDPXHGkeQ0hKdGbgw3N/zzLurjsndQPyd4PJRVcSMMtn4eWhs87EyP+ztKxuIK778W7ahx28V7h00Oh0aOEco4KQkFS9AsQ1t4y3LuD92u0Q1nirqLwyTRqwpo7SyXkn9h+sALOJwTpXjon8cJcY2WKyELSPaXpg5UdHQQjWnJvi4yaquad1Y2kjWMPJY9zwsuOdlNFrdqgb1M1/OCl5XyoYhZgU5U8qaCMaQpMUFFHIzSU2p1EZNC8HdzJRc3taVgbL/YLX6W9SB8XIguHyrV6dY1aJGdsPa5DJIkHDGHfrhs4ChnA9ReJPhtrL7qim2sRT6aeo+Hb62DKsI0U7Bf8Km4FG3CgK5DQaYgTXy3G2EYMvrY6+loGC9Wy9TyCWI9FCbod5KrMUXCHoMnGK1n6Fv236M6mE4/8RxEd53wGTre02XIOhfFJ2Aa+FbjcG2HJ9wmyou9oQ6RSH1m7cPYa4K806017YLl/+o91070KJl9evSqRzorEME68mzA03yaLQtaDUmTawvaL7d2p1d4xojNGh09uhvIGtbGme/2wAdjL9frby/oCpuOZ6WLCw3i2qkIURTA4hb4KbmxHqfuQtDoq8ORSKRiUY9RLHugANblYg8FYLvWZ+unTO8R+G+IYHLBkgQxmlOomcxs+SbJL2S9LDDXQieZOv+CI/8G8AvyXMuWW3EPe5WEAMMeeovciTkV8oMXdF7ngfKf+vJHRqApLtNiNeHhmtVxn6M7Vb41I3cqfBEOxr5MOoBzQIGRlPdKGalBO0ai3MgmFJJxKaGrOx64NKussybyz4quKT9VLa6TlC1qMGQtJyzzSG6d5l0McxJKD5RYKhglpC+kStOQEGyDH2gbKK4HbcU0fxjhrm3seDc0mDzmOJjsILW7p9bP0vsA0KmNElEmJS9VPLAdHtk+6gerZCPhE9m/AHfomu18cc2OAhaEHGvUT1Hfqhew+vADLXYLHvyFpqVBMe1O4L/81WABCMKfpi7OjCQHxiiHrBKv69MAqpdUaF2NqTm5boisG4lWoC/It3wboyUuXyE7uaVU+0KXWuc/zUYmd3LKrpvUQ7G/cH7RvZUJ2RPvLQD4HCoCM/D64Dia+nB7EcFLgfV6eGsAWD0V1T0Tst0ge42n1VjZkxBvbf6c8p+iw9kCjqmDS1qvM6WM8eBbA1yDz4s7REGdZKmQvq6KOdCg7JwgNr1wdipumctNcYTvg52sSd/YgR60Jfr44GUmbhtmkghEaumCyMOSsBFjgRppBtwX1gtBe6yN+hnHaQ3sHhc+O2Rpcg/R2QlLMIe8kmlVDoJBDqj9XGJKL3UhPtPqjn+ccsEoV9ojBqoss4OmcdtUSrGikn9pNqEQQ3pVUcw+S9AasAdKpKUd3mltc61yfGvbQ1cQ==
+import threading
+import requests
+import cfscrape
+import uuid
+import random
+import string
+
+def randomstr(n):
+   return ''.join(random.choices(string.ascii_letters + string.digits, k=n))
+
+roomId = input("roomId: ")
+nickname = input("nickname(%rand%): ")
+url = requests.get("https://garticphone.com/api/server?code="+roomId).text
+print(url)
+
+def joinbot():
+    while True:
+        try:
+            t = randomstr(7);
+            s = requests.session()
+            port = random.randint(10000,10049)
+            proxy = "socks5://127.0.0.1:"+str(port)
+            proxies = {"http":proxy,"https":proxy}
+            s.proxies = proxies
+            sid = s.get(url+"/socket.io/?EIO=3&transport=polling&t="+t).text.split('{"sid":"')[1].split('"')[0]
+            print(sid)
+            uuid_ = str(uuid.uuid4())
+            print(uuid_)
+            skin = str(random.randint(0,45))
+            nick = nickname.replace("%rand%",str(random.randint(100,9999)))
+            body = str('[1,"'+uuid_+'","'+nick+'",'+skin+',"ja",false,"'+roomId+'",null,null]')
+            body = str(str(len(body)+2)+":42"+body).encode("utf-8")
+            print(body)
+            res = s.post(url+"/socket.io/?EIO=3&transport=polling&t="+t+"&sid="+sid, headers={"Content-Type":"text/plain;charset=UTF-8"}, data=body).text
+            print(res)
+        except:pass
+#        except Exception as e:print(e)
+
+for _ in range(100):
+    threading.Thread(target=joinbot).start()

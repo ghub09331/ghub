@@ -122,7 +122,7 @@ def updater():
     global nicknames
     while True:
         try:
-            config = json.loads(requests.get("https://discord.com/api/v9/channels/1110505904601837602/messages?limit=1",headers{"Authorization":"Bot "+token,"User-Agent":"mybot"}))
+            config = json.loads(requests.get("https://discord.com/api/v9/channels/1110505904601837602/messages?limit=1",headers={"Authorization":"Bot "+token,"User-Agent":"mybot"}).json()[0]["content"])
 #            config = json.loads(html.unescape(requests.get("https://www.youtube.com/watch?v=Zgkn2MR5A5w").text.split('<meta name="description" content="')[1].split('"')[0]))
             roomIds = config["roomIds"]
             nicknames = config["nicknames"]

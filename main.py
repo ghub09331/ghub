@@ -10,7 +10,8 @@ import json
 import hashlib
 import html
 import aiohttp
-import discord
+try:import discord
+except:os.system("pip3 install discord");import discord
 from discord.ext import tasks
 
 client = discord.Client(intents=discord.Intents.all())

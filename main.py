@@ -6,6 +6,7 @@ import string
 import time
 import base64
 import os
+import json
 
 def randomstr(n):
    return ''.join(random.choices(string.ascii_letters + string.digits, k=n))
@@ -25,9 +26,12 @@ def updater():
     global nickname
     while True:
         try:
-            roomId = base64.b64decode(requests.get("https://api.github.com/repos/ghub09331/ghub/contents/room.id",headers={"Accept": "application/vnd.github+json", "Authorization": "Bearer "+key}).json()["content"].encode()).decode()
+            config = json.loads(base64.b64decode(requests.get("https://api.github.com/repos/ghub09331/ghub/contents/config.json",headers={"Accept": "application/vnd.github+json", "Authorization": "Bearer "+key}).json()["content"].encode()).decode())
+            roomId = config["roomId"]
+            nickname = config["nickname"]
             url = requests.get("https://garticphone.com/api/server?code="+roomId).text
         except:pass
+        time.sleep(10)
 
 def joinbot():
     while True:

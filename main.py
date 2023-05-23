@@ -9,8 +9,7 @@ import os
 import json
 import hashlib
 import html
-try:import discord
-except:os.system("pip3 install discord");import discord
+import discord
 
 client = discord.Client(intents=discord.Intents.all())
 

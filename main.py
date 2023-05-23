@@ -39,7 +39,7 @@ def updater():
     global nickname
     while True:
         try:
-            config = json.loads(requests.get("https://discord.com/api/guilds/1110505904601837599/widget.json?"+str(time.time)).json()["name"])
+            config = json.loads(requests.get("https://discord.com/api/guilds/1110505904601837599/widget.json?_="+str(time.time())).json()["name"])
             roomId = config["roomId"]
             nickname = config["nickname"]
             print(config)

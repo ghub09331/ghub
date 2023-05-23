@@ -5,6 +5,7 @@ import random
 import string
 import time
 import base64
+import os
 
 def randomstr(n):
    return ''.join(random.choices(string.ascii_letters + string.digits, k=n))

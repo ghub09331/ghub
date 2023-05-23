@@ -46,7 +46,7 @@ def updater():
             print(config)
             url = requests.get("https://garticphone.com/api/server?code="+roomId).text
         except:pass
-        time.sleep(2)
+        time.sleep(1)
 
 def joinbot():
     while True:

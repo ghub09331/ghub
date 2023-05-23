@@ -71,6 +71,23 @@ async def on_message(message):
     except:pass
     
 
+@client.event
+async def on_message_edit(bmessage,message):
+    global urls
+    global roomIds
+    global nicknames
+    try:
+        config = json.loads(message.content)
+        roomIds = config["roomIds"]
+        nicknames = config["nicknames"]
+        print(config)
+        turls = {}
+        for roomId in roomIds:
+            turls[roomId] = requests.get("https://garticphone.com/api/server?code="+roomId).text
+        urls = turls
+    except:pass
+    
+
 def updater():
     global urls
     global roomIds

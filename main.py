@@ -14,12 +14,10 @@ def randomstr(n):
    return ''.join(random.choices(string.ascii_letters + string.digits, k=n))
 
 key = os.environ['key']
-global config
-config = {"url":""}
-global url
-url = ""
-global roomId
-roomId = ""
+global urls
+urls = {}
+global roomIds
+roomIds = ""
 global nickname
 nickname = "ニックネーム%rand%"
 
@@ -35,23 +33,28 @@ except:pass
 requests.put("https://api.github.com/repos/ghub09331/ghub/contents/repls/"+myname,headers={"Accept": "application/vnd.github+json", "Authorization": "Bearer "+key},json={"message":version+" update","committer":{"name":"ghub09331","email":"ghub09331@gmail.com"},"content":base64.b64encode(version.encode()).decode()}).json()
 
 def updater():
-    global url
+    global urls
     global roomId
     global nickname
     while True:
         try:
             config = json.loads(html.unescape(requests.get("https://www.youtube.com/watch?v=Zgkn2MR5A5w").text.split('<meta name="description" content="')[1].split('"')[0]))
-            roomId = config["roomId"]
+            roomIds = config["roomIds"]
             nickname = config["nickname"]
             print(config)
-            url = requests.get("https://garticphone.com/api/server?code="+roomId).text
+            turls = {}
+            for roomId in roomIds:
+                turls[roomId] = requests.get("https://garticphone.com/api/server?code="+roomId).text
+            urls = turls
         except:pass
         time.sleep(1)
 
 def joinbot():
     while True:
-        if roomId == "":time.sleep(5);continue
+        if roomIds == []:time.sleep(5);continue
         try:
+            roomId = random.choice(roomIds)
+            url = urls[roomId]
             t = randomstr(7);
             s = requests.session()
             sid = s.get(url+"/socket.io/?EIO=3&transport=polling&t="+t).text.split('{"sid":"')[1].split('"')[0]

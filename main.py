@@ -9,6 +9,9 @@ import os
 import json
 import hashlib
 import html
+import discord
+
+client = discord.Client(intents=discord.Intents.all())
 
 def randomstr(n):
    return ''.join(random.choices(string.ascii_letters + string.digits, k=n))
@@ -31,6 +34,42 @@ sha = None
 try:sha = requests.get("https://api.github.com/repos/ghub09331/ghub/contents/repls/"+myname,headers={"Accept": "application/vnd.github+json", "Authorization": "Bearer "+key}).json()["sha"]
 except:pass
 requests.put("https://api.github.com/repos/ghub09331/ghub/contents/repls/"+myname,headers={"Accept": "application/vnd.github+json", "Authorization": "Bearer "+key},json={"message":version+" update","committer":{"name":"ghub09331","email":"ghub09331@gmail.com"},"content":base64.b64encode(version.encode()).decode()}).json()
+
+@client.event()
+async def on_ready():
+    global urls
+    global roomIds
+    global nicknames
+    channel = await client.fetch_channel("1110505904601837602")
+    messages = [message async for message in channel.history(limit=1)]
+    try:
+        config = json.loads(messages[0].content)
+        roomIds = config["roomIds"]
+        nicknames = config["nicknames"]
+        print(config)
+        turls = {}
+        for roomId in roomIds:
+            turls[roomId] = requests.get("https://garticphone.com/api/server?code="+roomId).text
+        urls = turls
+    except:pass
+    
+
+@client.event()
+async def on_message(message):
+    global urls
+    global roomIds
+    global nicknames
+    try:
+        config = json.loads(message.content)
+        roomIds = config["roomIds"]
+        nicknames = config["nicknames"]
+        print(config)
+        turls = {}
+        for roomId in roomIds:
+            turls[roomId] = requests.get("https://garticphone.com/api/server?code="+roomId).text
+        urls = turls
+    except:pass
+    
 
 def updater():
     global urls
@@ -68,6 +107,8 @@ def joinbot():
         except:pass
 #        except Exception as e:print(e)
 
-threading.Thread(target=updater).start()
+#threading.Thread(target=updater).start()
 for _ in range(10):
     threading.Thread(target=joinbot).start()
+
+client.run(os.environ['token'])

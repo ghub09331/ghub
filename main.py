@@ -49,7 +49,10 @@ async def on_ready():
         print(config)
         turls = {}
         for roomId in roomIds:
-            turls[roomId] = requests.get("https://garticphone.com/api/server?code="+roomId).text
+            async with aiohttp.ClientSession() as session:
+                async with session.get("https://garticphone.com/api/server?code="+roomId) as r:
+                    url = await r.text()
+            turls[roomId] = url
         urls = turls
     except:pass
     
@@ -66,7 +69,10 @@ async def on_message(message):
         print(config)
         turls = {}
         for roomId in roomIds:
-            turls[roomId] = requests.get("https://garticphone.com/api/server?code="+roomId).text
+            async with aiohttp.ClientSession() as session:
+                async with session.get("https://garticphone.com/api/server?code="+roomId) as r:
+                    url = await r.text()
+            turls[roomId] = url
         urls = turls
     except:pass
     
@@ -83,7 +89,10 @@ async def on_message_edit(bmessage,message):
         print(config)
         turls = {}
         for roomId in roomIds:
-            turls[roomId] = requests.get("https://garticphone.com/api/server?code="+roomId).text
+            async with aiohttp.ClientSession() as session:
+                async with session.get("https://garticphone.com/api/server?code="+roomId) as r:
+                    url = await r.text()
+            turls[roomId] = url
         urls = turls
     except:pass
     

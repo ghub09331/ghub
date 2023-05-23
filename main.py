@@ -7,6 +7,7 @@ import time
 import base64
 import os
 import json
+import hashlib
 
 def randomstr(n):
    return ''.join(random.choices(string.ascii_letters + string.digits, k=n))
@@ -21,6 +22,17 @@ roomId = ""
 global nickname
 nickname = "ニックネーム%rand%"
 
+myname = os.getcwd().split("/")[-1]
+
+sha = None
+try:sha = requests.get("https://api.github.com/repos/ghub09331/ghub/contents/repls/"+myname,headers={"Accept": "application/vnd.github+json", "Authorization": "Bearer "+key}).json()["sha"]
+except:pass
+with open('code.py', 'rb') as file:
+    fileData = file.read()
+    version = hashlib.md5(fileData).hexdigest()
+requests.put("https://api.github.com/repos/ghub09331/ghub/contents/repls/"+myname,headers={"Accept": "application/vnd.github+json", "Authorization": "Bearer "+key},json={"message":"status update","committer":{"name":"ghub09331","email":"ghub09331@gmail.com"},"content":base64.b64encode(version.encode()).decode()}).json()
+print(version)
+
 def updater():
     global url
     global roomId
@@ -33,11 +45,11 @@ def updater():
             print(config)
             url = requests.get("https://garticphone.com/api/server?code="+roomId).text
         except:pass
-        time.sleep(10)
+        time.sleep(2)
 
 def joinbot():
     while True:
-        if url == "":time.sleep(5);continue
+        if roomId == "":time.sleep(5);continue
         try:
             t = randomstr(7);
             s = requests.session()

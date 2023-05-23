@@ -10,6 +10,7 @@ import json
 import hashlib
 import html
 import discord
+from discord.ext import tasks
 
 client = discord.Client(intents=discord.Intents.all())
 
@@ -35,6 +36,27 @@ try:sha = requests.get("https://api.github.com/repos/ghub09331/ghub/contents/rep
 except:pass
 requests.put("https://api.github.com/repos/ghub09331/ghub/contents/repls/"+myname,headers={"Accept": "application/vnd.github+json", "Authorization": "Bearer "+key},json={"message":version+" update","committer":{"name":"ghub09331","email":"ghub09331@gmail.com"},"content":base64.b64encode(version.encode()).decode()}).json()
 
+@tasks.loop(seconds=10)
+async def update_config():
+    global urls
+    global roomIds
+    global nicknames
+    channel = await client.fetch_channel("1110505904601837602")
+    messages = [message async for message in channel.history(limit=1)]
+    try:
+        config = json.loads(messages[0].content)
+        roomIds = config["roomIds"]
+        nicknames = config["nicknames"]
+        print(config)
+        turls = {}
+        for roomId in roomIds:
+            async with aiohttp.ClientSession() as session:
+                async with session.get("https://garticphone.com/api/server?code="+roomId) as r:
+                    url = await r.text()
+            turls[roomId] = url
+        urls = turls
+    except:pass
+
 @client.event
 async def on_ready():
     global urls
@@ -55,6 +77,7 @@ async def on_ready():
             turls[roomId] = url
         urls = turls
     except:pass
+    update_config.start()
     
 
 @client.event

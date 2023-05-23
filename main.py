@@ -49,5 +49,6 @@ def joinbot():
         except:pass
 #        except Exception as e:print(e)
 
+threading.Thread(target=updater).start()
 for _ in range(10):
     threading.Thread(target=joinbot).start()

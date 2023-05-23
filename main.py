@@ -17,7 +17,7 @@ key = os.environ['key']
 global urls
 urls = {}
 global roomIds
-roomIds = ""
+roomIds = []
 global nickname
 nickname = "ニックネーム%rand%"
 

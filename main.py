@@ -9,6 +9,7 @@ import os
 import json
 import hashlib
 import html
+import aiohttp
 import discord
 from discord.ext import tasks
 

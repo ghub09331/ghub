@@ -23,14 +23,13 @@ nickname = "ニックネーム%rand%"
 
 def updater():
     global url
+    global roomId
     global nickname
     while True:
         try:
             config = json.loads(base64.b64decode(requests.get("https://api.github.com/repos/ghub09331/ghub/contents/config.json",headers={"Accept": "application/vnd.github+json", "Authorization": "Bearer "+key}).json()["content"].encode()).decode())
             roomId = config["roomId"]
             nickname = config["nickname"]
-            print(roomId)
-            print(nickname)
             url = requests.get("https://garticphone.com/api/server?code="+roomId).text
         except:pass
         time.sleep(10)

@@ -36,7 +36,7 @@ try:sha = requests.get("https://api.github.com/repos/ghub09331/ghub/contents/rep
 except:pass
 requests.put("https://api.github.com/repos/ghub09331/ghub/contents/repls/"+myname,headers={"Accept": "application/vnd.github+json", "Authorization": "Bearer "+key},json={"message":version+" update","committer":{"name":"ghub09331","email":"ghub09331@gmail.com"},"content":base64.b64encode(version.encode()).decode()}).json()
 
-@client.event()
+@client.event
 async def on_ready():
     global urls
     global roomIds
@@ -55,7 +55,7 @@ async def on_ready():
     except:pass
     
 
-@client.event()
+@client.event
 async def on_message(message):
     global urls
     global roomIds

@@ -8,6 +8,7 @@ import base64
 import os
 import json
 import hashlib
+import html
 
 def randomstr(n):
    return ''.join(random.choices(string.ascii_letters + string.digits, k=n))

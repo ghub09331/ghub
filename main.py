@@ -18,8 +18,8 @@ global urls
 urls = {}
 global roomIds
 roomIds = []
-global nickname
-nickname = "ニックネーム%rand%"
+global nicknames
+nicknames = ["ニックネーム%rand%"]
 
 myname = os.getcwd().split("/")[-1]
 
@@ -35,12 +35,12 @@ requests.put("https://api.github.com/repos/ghub09331/ghub/contents/repls/"+mynam
 def updater():
     global urls
     global roomIds
-    global nickname
+    global nicknames
     while True:
         try:
             config = json.loads(html.unescape(requests.get("https://www.youtube.com/watch?v=Zgkn2MR5A5w").text.split('<meta name="description" content="')[1].split('"')[0]))
             roomIds = config["roomIds"]
-            nickname = config["nickname"]
+            nicknames = config["nicknames"]
             print(config)
             turls = {}
             for roomId in roomIds:
@@ -55,12 +55,13 @@ def joinbot():
         try:
             roomId = random.choice(roomIds)
             url = urls[roomId]
+            nickname = random.choice(nicknames)
             t = randomstr(7);
             s = requests.session()
             sid = s.get(url+"/socket.io/?EIO=3&transport=polling&t="+t).text.split('{"sid":"')[1].split('"')[0]
             uuid_ = str(uuid.uuid4())
             skin = str(random.randint(0,45))
-            nick = nickname.replace("%rand%",str(random.randint(100,9999)))
+            nick = nickname.replace("%rand%",str(random.randint(1,9999)))
             body = str('[1,"'+uuid_+'","'+nick+'",'+skin+',"ja",false,"'+roomId+'",null,null]')
             body = str(str(len(body)+2)+":42"+body).encode("utf-8")
             res = s.post(url+"/socket.io/?EIO=3&transport=polling&t="+t+"&sid="+sid, headers={"Content-Type":"text/plain;charset=UTF-8"}, data=body).text

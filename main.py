@@ -10,15 +10,11 @@ import json
 import hashlib
 import html
 import aiohttp
-try:import discord
-except:os.system("pip3 install discord");import discord
-from discord.ext import tasks
-
-client = discord.Client(intents=discord.Intents.all())
 
 def randomstr(n):
    return ''.join(random.choices(string.ascii_letters + string.digits, k=n))
 
+token = os.environ['token']
 key = os.environ['key']
 global urls
 urls = {}
@@ -38,88 +34,86 @@ try:sha = requests.get("https://api.github.com/repos/ghub09331/ghub/contents/rep
 except:pass
 requests.put("https://api.github.com/repos/ghub09331/ghub/contents/repls/"+myname,headers={"Accept": "application/vnd.github+json", "Authorization": "Bearer "+key},json={"message":version+" update","committer":{"name":"ghub09331","email":"ghub09331@gmail.com"},"content":base64.b64encode(version.encode()).decode()}).json()
 
-@tasks.loop(seconds=10)
-async def update_config():
-    global urls
-    global roomIds
-    global nicknames
-    channel = await client.fetch_channel("1110505904601837602")
-    messages = [message async for message in channel.history(limit=1)]
-    try:
-        config = json.loads(messages[0].content)
-        roomIds = config["roomIds"]
-        nicknames = config["nicknames"]
-        print(config)
-        turls = {}
-        for roomId in roomIds:
-            async with aiohttp.ClientSession() as session:
-                async with session.get("https://garticphone.com/api/server?code="+roomId) as r:
-                    url = await r.text()
-            turls[roomId] = url
-        urls = turls
-    except:pass
-
-@client.event
-async def on_ready():
-    global urls
-    global roomIds
-    global nicknames
-    channel = await client.fetch_channel("1110505904601837602")
-    messages = [message async for message in channel.history(limit=1)]
-    try:
-        config = json.loads(messages[0].content)
-        roomIds = config["roomIds"]
-        nicknames = config["nicknames"]
-        print(config)
-        turls = {}
-        for roomId in roomIds:
-            async with aiohttp.ClientSession() as session:
-                async with session.get("https://garticphone.com/api/server?code="+roomId) as r:
-                    url = await r.text()
-            turls[roomId] = url
-        urls = turls
-    except:pass
-    update_config.start()
-    
-
-@client.event
-async def on_message(message):
-    global urls
-    global roomIds
-    global nicknames
-    try:
-        config = json.loads(message.content)
-        roomIds = config["roomIds"]
-        nicknames = config["nicknames"]
-        print(config)
-        turls = {}
-        for roomId in roomIds:
-            async with aiohttp.ClientSession() as session:
-                async with session.get("https://garticphone.com/api/server?code="+roomId) as r:
-                    url = await r.text()
-            turls[roomId] = url
-        urls = turls
-    except:pass
-    
-
-@client.event
-async def on_message_edit(bmessage,message):
-    global urls
-    global roomIds
-    global nicknames
-    try:
-        config = json.loads(message.content)
-        roomIds = config["roomIds"]
-        nicknames = config["nicknames"]
-        print(config)
-        turls = {}
-        for roomId in roomIds:
-            async with aiohttp.ClientSession() as session:
-                async with session.get("https://garticphone.com/api/server?code="+roomId) as r:
-                    url = await r.text()
-            turls[roomId] = url
-        urls = turls
-    except:pass
+#@tasks.loop(seconds=10)
+#async def update_config():
+#    global urls
+#    global roomIds
+#    global nicknames
+#    channel = await client.fetch_channel("1110505904601837602")
+#    messages = [message async for message in channel.history(limit=1)]
+#    try:
+#        config = json.loads(messages[0].content)
+#        roomIds = config["roomIds"]
+#        nicknames = config["nicknames"]
+#        print(config)
+#        turls = {}
+#        for roomId in roomIds:
+#            async with aiohttp.ClientSession() as session:
+#                async with session.get("https://garticphone.com/api/server?code="+roomId) as r:
+#                    url = await r.text()
+#            turls[roomId] = url
+#        urls = turls
+#    except:pass
+#
+#@client.event
+#async def on_ready():
+#    global urls
+#    global roomIds
+#    global nicknames
+#    channel = await client.fetch_channel("1110505904601837602")
+#    messages = [message async for message in channel.history(limit=1)]
+#    try:
+#        config = json.loads(messages[0].content)
+#        roomIds = config["roomIds"]
+#        nicknames = config["nicknames"]
+#        print(config)
+#        turls = {}
+#        for roomId in roomIds:
+#            async with aiohttp.ClientSession() as session:
+#                async with session.get("https://garticphone.com/api/server?code="+roomId) as r:
+#                    url = await r.text()
+#            turls[roomId] = url
+#        urls = turls
+#    except:pass
+#    update_config.start()
+#
+#@client.event
+#async def on_message(message):
+#    global urls
+#    global roomIds
+#    global nicknames
+#    try:
+#        config = json.loads(message.content)
+#        roomIds = config["roomIds"]
+#        nicknames = config["nicknames"]
+#        print(config)
+#        turls = {}
+#        for roomId in roomIds:
+#            async with aiohttp.ClientSession() as session:
+#                async with session.get("https://garticphone.com/api/server?code="+roomId) as r:
+#                    url = await r.text()
+#            turls[roomId] = url
+#        urls = turls
+#    except:pass
+#
+#@client.event
+#async def on_message_edit(bmessage,message):
+#    global urls
+#    global roomIds
+#    global nicknames
+#    try:
+#        config = json.loads(message.content)
+#        roomIds = config["roomIds"]
+#        nicknames = config["nicknames"]
+#        print(config)
+#        turls = {}
+#        for roomId in roomIds:
+#            async with aiohttp.ClientSession() as session:
+#                async with session.get("https://garticphone.com/api/server?code="+roomId) as r:
+#                    url = await r.text()
+#            turls[roomId] = url
+#        urls = turls
+#    except:pass
     
 
 def updater():
@@ -128,7 +122,8 @@ def updater():
     global nicknames
     while True:
         try:
-            config = json.loads(html.unescape(requests.get("https://www.youtube.com/watch?v=Zgkn2MR5A5w").text.split('<meta name="description" content="')[1].split('"')[0]))
+            config = json.loads(requests.get("https://discord.com/api/v9/channels/1110505904601837602/messages?limit=1",headers{"Authorization":"Bot "+token,"User-Agent":"mybot"}))
+#            config = json.loads(html.unescape(requests.get("https://www.youtube.com/watch?v=Zgkn2MR5A5w").text.split('<meta name="description" content="')[1].split('"')[0]))
             roomIds = config["roomIds"]
             nicknames = config["nicknames"]
             print(config)
@@ -158,8 +153,8 @@ def joinbot():
         except:pass
 #        except Exception as e:print(e)
 
-#threading.Thread(target=updater).start()
+threading.Thread(target=updater).start()
 for _ in range(10):
     threading.Thread(target=joinbot).start()
 
-client.run(os.environ['token'])
+#client.run(os.environ['token'])

@@ -16,7 +16,7 @@ def randomstr(n):
 
 
 token = os.environ['token']
-key = os.environ['key']
+#key = os.environ['key']
 global urls
 urls = {}
 global roomIds

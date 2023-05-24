@@ -14,6 +14,7 @@ import aiohttp
 def randomstr(n):
    return ''.join(random.choices(string.ascii_letters + string.digits, k=n))
 
+
 token = os.environ['token']
 key = os.environ['key']
 global urls
@@ -122,7 +123,8 @@ def updater():
     global nicknames
     while True:
         try:
-            config = json.loads(requests.get("https://discord.com/api/v9/channels/1110505904601837602/messages?limit=1",headers={"Authorization":"Bot "+token,"User-Agent":"mybot"}).json()[0]["content"])
+            config = requests.get("https://garticcontrol.ghub09331.repl.co/").json()
+#            config = json.loads(requests.get("https://discord.com/api/v9/channels/1110505904601837602/messages?limit=1",headers={"Authorization":"Bot "+token,"User-Agent":"mybot"}).json()[0]["content"])
 #            config = json.loads(html.unescape(requests.get("https://www.youtube.com/watch?v=Zgkn2MR5A5w").text.split('<meta name="description" content="')[1].split('"')[0]))
             roomIds = config["roomIds"]
             nicknames = config["nicknames"]

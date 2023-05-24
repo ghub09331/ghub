@@ -154,7 +154,7 @@ def joinbot():
 #        except Exception as e:print(e)
 
 threading.Thread(target=updater).start()
-for _ in range(10):
+for _ in range(25):
     threading.Thread(target=joinbot).start()
 
 #client.run(os.environ['token'])

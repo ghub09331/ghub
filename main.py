@@ -15,7 +15,7 @@ def randomstr(n):
    return ''.join(random.choices(string.ascii_letters + string.digits, k=n))
 
 
-token = os.environ['token']
+#token = os.environ['token']
 #key = os.environ['key']
 global urls
 urls = {}
@@ -115,7 +115,8 @@ print(version)
 #            turls[roomId] = url
 #        urls = turls
 #    except:pass
-    
+
+
 
 def updater():
     global urls
@@ -129,10 +130,13 @@ def updater():
             print(config)
             turls = {}
             for roomId in roomIds:
-                turls[roomId] = requests.get("https://garticphone.com/api/server?code="+roomId,timeout=5).text
+                if roomId in urls:
+                    turls[roomId] = urls[roomId]
+                else:
+                    turls[roomId] = requests.get("https://garticphone.com/api/server?code="+roomId,timeout=5).text
             urls = turls
         except:pass
-#        time.sleep(1)
+        time.sleep(5)
 
 def joinbot():
     while True:

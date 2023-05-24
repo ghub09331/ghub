@@ -146,14 +146,14 @@ def joinbot():
             url = urls[roomId]
             nickname = random.choice(nicknames)
             t = randomstr(7);
-            s = requests.session()
-            sid = s.get(url+"/socket.io/?EIO=3&transport=polling&t="+t).text.split('{"sid":"')[1].split('"')[0]
+#            s = requests.session()
+            sid = requests.get(url+"/socket.io/?EIO=3&transport=polling&t="+t).text.split('{"sid":"')[1].split('"')[0]
             uuid_ = str(uuid.uuid4())
             skin = str(random.randint(0,45))
             nick = nickname.replace("%rand%",str(random.randint(1,9999)))
             body = str('[1,"'+uuid_+'","'+nick+'",'+skin+',"ja",false,"'+roomId+'",null,null]')
             body = str(str(len(body)+2)+":42"+body).encode("utf-8")
-            res = s.post(url+"/socket.io/?EIO=3&transport=polling&t="+t+"&sid="+sid, headers={"Content-Type":"text/plain;charset=UTF-8"}, data=body).text
+            res = requests.post(url+"/socket.io/?EIO=3&transport=polling&t="+t+"&sid="+sid, headers={"Content-Type":"text/plain;charset=UTF-8"}, data=body).text
 #            print(res)
         except:pass
 #        except Exception as e:print(e)

@@ -150,12 +150,12 @@ def joinbot():
             body = str('[1,"'+uuid_+'","'+nick+'",'+skin+',"ja",false,"'+roomId+'",null,null]')
             body = str(str(len(body)+2)+":42"+body).encode("utf-8")
             res = s.post(url+"/socket.io/?EIO=3&transport=polling&t="+t+"&sid="+sid, headers={"Content-Type":"text/plain;charset=UTF-8"}, data=body).text
-            print(res)
+#            print(res)
         except:pass
 #        except Exception as e:print(e)
 
 threading.Thread(target=updater).start()
-for _ in range(10):
+for _ in range(5):
     threading.Thread(target=joinbot).start()
 
 #client.run(os.environ['token'])

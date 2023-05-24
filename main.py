@@ -138,11 +138,12 @@ def updater():
                     turls[roomId] = requests.get("https://garticphone.com/api/server?code="+roomId,timeout=5).text
             urls = turls
         except:pass
-        time.sleep(5)
+        time.sleep(1)
 
 def joinbot():
     while True:
         if roomIds == []:time.sleep(5);continue
+        if roomIds[0] == "":time.sleep(5);continue
         try:
             roomId = random.choice(roomIds)
             url = urls[roomId]

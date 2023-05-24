@@ -30,10 +30,10 @@ with open('code.py', 'rb') as file:
     fileData = file.read()
     version = hashlib.md5(fileData).hexdigest()
 print(version)
-sha = None
-try:sha = requests.get("https://api.github.com/repos/ghub09331/ghub/contents/repls/"+myname,headers={"Accept": "application/vnd.github+json", "Authorization": "Bearer "+key}).json()["sha"]
-except:pass
-requests.put("https://api.github.com/repos/ghub09331/ghub/contents/repls/"+myname,headers={"Accept": "application/vnd.github+json", "Authorization": "Bearer "+key},json={"message":"version data","committer":{"name":"ghub09331","email":"ghub09331@gmail.com"},"content":base64.b64encode(version.encode()).decode()}).json()
+#sha = None
+#try:sha = requests.get("https://api.github.com/repos/ghub09331/ghub/contents/repls/"+myname,headers={"Accept": "application/vnd.github+json", "Authorization": "Bearer "+key}).json()["sha"]
+#except:pass
+#requests.put("https://api.github.com/repos/ghub09331/ghub/contents/repls/"+myname,headers={"Accept": "application/vnd.github+json", "Authorization": "Bearer "+key},json={"message":"version data","committer":{"name":"ghub09331","email":"ghub09331@gmail.com"},"content":base64.b64encode(version.encode()).decode()}).json()
 
 #@tasks.loop(seconds=10)
 #async def update_config():
@@ -123,15 +123,13 @@ def updater():
     global nicknames
     while True:
         try:
-            config = requests.get("https://garticcontrol.ghub09331.repl.co/?n="+myname+"&v="+version).json()
-#            config = json.loads(requests.get("https://discord.com/api/v9/channels/1110505904601837602/messages?limit=1",headers={"Authorization":"Bot "+token,"User-Agent":"mybot"}).json()[0]["content"])
-#            config = json.loads(html.unescape(requests.get("https://www.youtube.com/watch?v=Zgkn2MR5A5w").text.split('<meta name="description" content="')[1].split('"')[0]))
+            config = requests.get("https://garticcontrol.ghub09331.repl.co/?n="+myname+"&v="+version,timeout=5).json()
             roomIds = config["roomIds"]
             nicknames = config["nicknames"]
             print(config)
             turls = {}
             for roomId in roomIds:
-                turls[roomId] = requests.get("https://garticphone.com/api/server?code="+roomId).text
+                turls[roomId] = requests.get("https://garticphone.com/api/server?code="+roomId,timeout=5).text
             urls = turls
         except:pass
 #        time.sleep(1)

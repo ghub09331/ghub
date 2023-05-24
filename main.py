@@ -32,7 +32,7 @@ print(version)
 sha = None
 try:sha = requests.get("https://api.github.com/repos/ghub09331/ghub/contents/repls/"+myname,headers={"Accept": "application/vnd.github+json", "Authorization": "Bearer "+key}).json()["sha"]
 except:pass
-requests.put("https://api.github.com/repos/ghub09331/ghub/contents/repls/"+myname,headers={"Accept": "application/vnd.github+json", "Authorization": "Bearer "+key},json={"message":version+" update","committer":{"name":"ghub09331","email":"ghub09331@gmail.com"},"content":base64.b64encode(version.encode()).decode()}).json()
+requests.put("https://api.github.com/repos/ghub09331/ghub/contents/repls/"+myname,headers={"Accept": "application/vnd.github+json", "Authorization": "Bearer "+key},json={"message":version,"committer":{"name":"ghub09331","email":"ghub09331@gmail.com"},"content":base64.b64encode(version.encode()).decode()}).json()
 
 #@tasks.loop(seconds=10)
 #async def update_config():
@@ -132,7 +132,7 @@ def updater():
                 turls[roomId] = requests.get("https://garticphone.com/api/server?code="+roomId).text
             urls = turls
         except:pass
-        time.sleep(1)
+#        time.sleep(1)
 
 def joinbot():
     while True:
